@@ -19,6 +19,8 @@ AShooterExplosionEffect::AShooterExplosionEffect(const FObjectInitializer& Objec
 	ExplosionLight->SetVisibleFlag(true);
 
 	ExplosionLightFadeOut = 0.2f;
+
+	bReplicates = true;
 }
 
 void AShooterExplosionEffect::BeginPlay()

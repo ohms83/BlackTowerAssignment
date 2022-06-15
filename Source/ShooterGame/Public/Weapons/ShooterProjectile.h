@@ -15,11 +15,13 @@ class AShooterProjectile : public AActor
 {
 	GENERATED_UCLASS_BODY()
 
+public:
 	/** initial setup */
 	virtual void PostInitializeComponents() override;
 
 	/** setup velocity */
-	void InitVelocity(FVector& ShootDirection);
+	UFUNCTION(BlueprintCallable)
+	void InitVelocity(const FVector& ShootDirection);
 
 	/** handle hit */
 	UFUNCTION()
@@ -36,6 +38,10 @@ private:
 
 	UPROPERTY(VisibleDefaultsOnly, Category=Projectile)
 	UParticleSystemComponent* ParticleComp;
+
+	/** A delay time in seconds before this object being destroy after explode. */
+	UPROPERTY(EditDefaultsOnly, Category = Projectile)
+	float DelayDestroy;
 protected:
 
 	/** effects for explosion */
@@ -46,6 +52,7 @@ protected:
 	TWeakObjectPtr<AController> MyController;
 
 	/** projectile data */
+	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 	struct FProjectileWeaponData WeaponConfig;
 
 	/** did it explode? */

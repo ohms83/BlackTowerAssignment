@@ -37,6 +37,8 @@ AShooterProjectile::AShooterProjectile(const FObjectInitializer& ObjectInitializ
 	SetRemoteRoleForBackwardsCompat(ROLE_SimulatedProxy);
 	bReplicates = true;
 	SetReplicatingMovement(true);
+
+	DelayDestroy = 2.0f;
 }
 
 void AShooterProjectile::PostInitializeComponents()
@@ -55,7 +57,7 @@ void AShooterProjectile::PostInitializeComponents()
 	MyController = GetInstigatorController();
 }
 
-void AShooterProjectile::InitVelocity(FVector& ShootDirection)
+void AShooterProjectile::InitVelocity(const FVector& ShootDirection)
 {
 	if (MovementComp)
 	{
@@ -111,8 +113,15 @@ void AShooterProjectile::DisableAndDestroy()
 
 	MovementComp->StopMovementImmediately();
 
-	// give clients some time to show explosion
-	SetLifeSpan( 2.0f );
+	if (DelayDestroy > 0)
+	{
+		// give clients some time to show explosion
+		SetLifeSpan(DelayDestroy);
+	}
+	else
+	{
+		Destroy();
+	}
 }
 
 ///CODE_SNIPPET_START: AActor::GetActorLocation AActor::GetActorRotation
