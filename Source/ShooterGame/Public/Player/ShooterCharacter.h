@@ -107,6 +107,9 @@ class AShooterCharacter : public ACharacter
 	/** [server + local] change targeting state */
 	void SetTargeting(bool bNewTargeting);
 
+	//UFUNCTION(BlueprintCallable)
+	//void ThrowGrenade();
+
 	//////////////////////////////////////////////////////////////////////////
 	// Movement
 
@@ -478,6 +481,10 @@ protected:
 	/** update targeting state */
 	UFUNCTION(reliable, server, WithValidation)
 	void ServerSetRunning(bool bNewRunning, bool bToggle);
+
+	/** Issuing throw grenade command from the server-side */
+	//UFUNCTION(reliable, server, WithValidation)
+	//void ServerThrowGrenade();
 
 	/** Builds list of points to check for pausing replication for a connection*/
 	void BuildPauseReplicationCheckPoints(TArray<FVector>& RelevancyCheckPoints);

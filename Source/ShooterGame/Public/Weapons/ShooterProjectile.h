@@ -3,7 +3,7 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
-#include "ShooterWeapon_Projectile.h"
+#include "ShooterProjectileData.h"
 #include "ShooterProjectile.generated.h"
 
 class UProjectileMovementComponent;
@@ -21,11 +21,14 @@ public:
 
 	/** setup velocity */
 	UFUNCTION(BlueprintCallable)
-	void InitVelocity(const FVector& ShootDirection);
+	void InitVelocity(const FVector& ShootDirection, const FVector& AddedVelocity);
 
 	/** handle hit */
 	UFUNCTION()
 	void OnImpact(const FHitResult& HitResult);
+
+	/** Called from AShooterWeapon_Projectile to Apply its damage data to this projectile. */
+	void ApplyWeaponConfig(const FProjectileWeaponData& Config);
 
 private:
 	/** movement component */

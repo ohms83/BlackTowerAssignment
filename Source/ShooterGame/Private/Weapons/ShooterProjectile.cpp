@@ -47,21 +47,15 @@ void AShooterProjectile::PostInitializeComponents()
 	MovementComp->OnProjectileStop.AddDynamic(this, &AShooterProjectile::OnImpact);
 	CollisionComp->MoveIgnoreActors.Add(GetInstigator());
 
-	AShooterWeapon_Projectile* OwnerWeapon = Cast<AShooterWeapon_Projectile>(GetOwner());
-	if (OwnerWeapon)
-	{
-		OwnerWeapon->ApplyWeaponConfig(WeaponConfig);
-	}
-
 	SetLifeSpan( WeaponConfig.ProjectileLife );
 	MyController = GetInstigatorController();
 }
 
-void AShooterProjectile::InitVelocity(const FVector& ShootDirection)
+void AShooterProjectile::InitVelocity(const FVector& ShootDirection, const FVector& AddedVelocity)
 {
 	if (MovementComp)
 	{
-		MovementComp->Velocity = ShootDirection * MovementComp->InitialSpeed;
+		MovementComp->Velocity = (ShootDirection * MovementComp->InitialSpeed) + AddedVelocity;
 	}
 }
 
@@ -157,4 +151,9 @@ void AShooterProjectile::GetLifetimeReplicatedProps( TArray< FLifetimeProperty >
 	Super::GetLifetimeReplicatedProps( OutLifetimeProps );
 	
 	DOREPLIFETIME( AShooterProjectile, bExploded );
+}
+
+void AShooterProjectile::ApplyWeaponConfig(const FProjectileWeaponData& Config)
+{
+	WeaponConfig = Config;
 }

@@ -77,13 +77,9 @@ void AShooterWeapon_Projectile::ServerFireProjectile_Implementation(FVector Orig
 	{
 		Projectile->SetInstigator(GetInstigator());
 		Projectile->SetOwner(this);
-		Projectile->InitVelocity(ShootDir);
+		Projectile->InitVelocity(ShootDir, FVector::ZeroVector);
+		Projectile->ApplyWeaponConfig(ProjectileConfig);
 
 		UGameplayStatics::FinishSpawningActor(Projectile, SpawnTM);
 	}
-}
-
-void AShooterWeapon_Projectile::ApplyWeaponConfig(FProjectileWeaponData& Data)
-{
-	Data = ProjectileConfig;
 }
