@@ -5,7 +5,7 @@ I assumed that this test is aiming for my knowledge of Unreal's network and mult
 Noticing that the `AShooterProjectile` class already has almost everything I need to achieve the goal, I based my codes from there. My principal is prioritizing __reusability__ over everything. So, if there are any codes ready for me to use, I will just use them. With that in mind, I also develop my own classes by reducing the redundancies as much as possible.
 
 ## Development Environment
-- Windows 11 Home
+- Windows 11 Home, Windows 10 Home
 - Unreal Engine 4.27.2
 - Microsoft Visual Studio 2022 (already tested with the version 2019)
 
