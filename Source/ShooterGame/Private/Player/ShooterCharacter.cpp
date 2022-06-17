@@ -271,6 +271,11 @@ float AShooterCharacter::TakeDamage(float Damage, struct FDamageEvent const& Dam
 	AShooterGameMode* const Game = GetWorld()->GetAuthGameMode<AShooterGameMode>();
 	Damage = Game ? Game->ModifyDamage(Damage, this, DamageEvent, EventInstigator, DamageCauser) : 0.f;
 
+	FString DebugMsg = FString::Printf(TEXT("ShouldTakeDamage Role=%d CanBeDamaged=%s GameMode=%s Damage=%.2f"),
+		GetLocalRole(), CanBeDamaged() ? TEXT("True") : TEXT("False"),
+		GetWorld()->GetAuthGameMode() ? TEXT("Not Null") : TEXT("Null"), Damage);
+	GEngine->AddOnScreenDebugMessage(-1, 10, FColor::Green, DebugMsg);
+
 	const float ActualDamage = Super::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
 	if (ActualDamage > 0.f)
 	{

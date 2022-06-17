@@ -10,6 +10,7 @@ AShooterGame_TeamDeathMatch::AShooterGame_TeamDeathMatch(const FObjectInitialize
 {
 	NumTeams = 2;
 	bDelayedStart = true;
+	bAllowFriendlyFire = false;
 }
 
 void AShooterGame_TeamDeathMatch::PostLogin(APlayerController* NewPlayer)
@@ -35,7 +36,17 @@ void AShooterGame_TeamDeathMatch::InitGameState()
 
 bool AShooterGame_TeamDeathMatch::CanDealDamage(AShooterPlayerState* DamageInstigator, class AShooterPlayerState* DamagedPlayer) const
 {
-	return DamageInstigator && DamagedPlayer && (DamagedPlayer == DamageInstigator || DamagedPlayer->GetTeamNum() != DamageInstigator->GetTeamNum());
+	if (!DamageInstigator || !DamagedPlayer)
+	{
+		return false;
+	}
+
+	if (DamagedPlayer == DamageInstigator)
+	{
+		return true;
+	}
+
+	return bAllowFriendlyFire || DamagedPlayer->GetTeamNum() != DamageInstigator->GetTeamNum();
 }
 
 int32 AShooterGame_TeamDeathMatch::ChooseTeam(AShooterPlayerState* ForPlayerState) const

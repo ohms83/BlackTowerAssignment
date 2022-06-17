@@ -29,6 +29,10 @@ protected:
 	/** best team */
 	int32 WinnerTeam;
 
+	/** whether or not friendly fire is allowed */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "GameMode")
+	bool bAllowFriendlyFire;
+
 	/** pick team with least players in or random when it's equal */
 	int32 ChooseTeam(AShooterPlayerState* ForPlayerState) const;
 
