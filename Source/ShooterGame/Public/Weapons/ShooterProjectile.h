@@ -26,6 +26,10 @@ public:
 	/** handle hit */
 	UFUNCTION()
 	void OnImpact(const FHitResult& HitResult);
+	
+	/** AActor::OnDestroyed's event callback. This will set off the explosion when bExplodeOnImpact is false. */
+	UFUNCTION()
+	void OnBeingDestroyed(AActor* Actor);
 
 	/** Called from AShooterWeapon_Projectile to Apply its damage data to this projectile. */
 	void ApplyWeaponConfig(const FProjectileWeaponData& Config);
@@ -58,9 +62,17 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 	struct FProjectileWeaponData WeaponConfig;
 
+	/** If set, the projectile will immediately explode upon impact;
+		otherwise, it will only explode the moment it's expired. */
+	UPROPERTY(EditDefaultsOnly, Category = Projectile)
+	bool bExplodeOnImpact;
+
 	/** did it explode? */
 	UPROPERTY(Transient, ReplicatedUsing=OnRep_Exploded)
 	bool bExploded;
+
+	/** A hit result cached from the last OnImpact. This is used for the delayed explosion. */
+	FHitResult CachedHitResult;
 
 	/** [client] explosion happened */
 	UFUNCTION()

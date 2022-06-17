@@ -39,6 +39,7 @@ AShooterProjectile::AShooterProjectile(const FObjectInitializer& ObjectInitializ
 	SetReplicatingMovement(true);
 
 	DelayDestroy = 2.0f;
+	bExplodeOnImpact = true;
 }
 
 void AShooterProjectile::PostInitializeComponents()
@@ -49,6 +50,8 @@ void AShooterProjectile::PostInitializeComponents()
 
 	SetLifeSpan( WeaponConfig.ProjectileLife );
 	MyController = GetInstigatorController();
+
+	OnDestroyed.AddDynamic(this, &AShooterProjectile::OnBeingDestroyed);
 }
 
 void AShooterProjectile::InitVelocity(const FVector& ShootDirection, const FVector& AddedVelocity)
@@ -61,9 +64,31 @@ void AShooterProjectile::InitVelocity(const FVector& ShootDirection, const FVect
 
 void AShooterProjectile::OnImpact(const FHitResult& HitResult)
 {
-	if (GetLocalRole() == ROLE_Authority && !bExploded)
+	if (bExplodeOnImpact)
 	{
-		Explode(HitResult);
+		if (GetLocalRole() == ROLE_Authority && !bExploded)
+		{
+			Explode(HitResult);
+			DisableAndDestroy();
+		}
+	}
+	else
+	{
+		CachedHitResult = HitResult;
+	}
+}
+
+void AShooterProjectile::OnBeingDestroyed(AActor* Actor)
+{
+	if (!bExplodeOnImpact && GetLocalRole() == ROLE_Authority && !bExploded)
+	{
+		if (CachedHitResult.Normal == FVector::ZeroVector && MovementComp)
+		{
+			// The projectile explodes mid-air.
+			CachedHitResult.Normal = MovementComp->Velocity.GetSafeNormal();
+			CachedHitResult.ImpactPoint = GetActorLocation();
+		}
+		Explode(CachedHitResult);
 		DisableAndDestroy();
 	}
 }

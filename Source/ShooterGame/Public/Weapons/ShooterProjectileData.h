@@ -9,25 +9,25 @@ struct FProjectileWeaponData
 {
 	GENERATED_USTRUCT_BODY()
 
-		/** projectile class */
-		UPROPERTY(EditDefaultsOnly, Category = Projectile)
-		TSubclassOf<class AShooterProjectile> ProjectileClass;
+	/** projectile class */
+	UPROPERTY(EditDefaultsOnly, Category = Projectile)
+	TSubclassOf<class AShooterProjectile> ProjectileClass;
 
 	/** life time */
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
-		float ProjectileLife;
+	float ProjectileLife;
 
 	/** damage at impact point */
 	UPROPERTY(EditDefaultsOnly, Category = WeaponStat)
-		int32 ExplosionDamage;
+	int32 ExplosionDamage;
 
 	/** radius of damage */
 	UPROPERTY(EditDefaultsOnly, Category = WeaponStat)
-		float ExplosionRadius;
+	float ExplosionRadius;
 
 	/** type of damage */
 	UPROPERTY(EditDefaultsOnly, Category = WeaponStat)
-		TSubclassOf<UDamageType> DamageType;
+	TSubclassOf<UDamageType> DamageType;
 
 	/** defaults */
 	FProjectileWeaponData()
