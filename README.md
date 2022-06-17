@@ -9,6 +9,9 @@ Noticing that the `AShooterProjectile` class already has almost everything I nee
 - Unreal Engine 4.27.2
 - Microsoft Visual Studio 2022 (already tested with the version 2019)
 
+## Control
+Press 'G' button to throw the grenade.
+
 ## Change List
 ### PlayerPawn BP
 - Added a new `ThrowGrenade` and `ServerThrowGrenade` functions.
